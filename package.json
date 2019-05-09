@@ -1,0 +1,16 @@
+{
+  "name": "tiny-png-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node resize",
+    "tinyfy": "node output_to_tiny"
+
+  },
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "sharp": "^0.22.1",
+    "tinify": "^1.6.0-beta.2"
+  }
+}
