@@ -1,5 +1,5 @@
 const fs = require('fs-extra')
-
+const config = require('./env.json')
 const sharp = require('sharp');
 const { getDirectoriesRecursive } = require('./file_directory_creator');
 
@@ -20,10 +20,11 @@ folders.forEach(inputPath => {
       image.metadata()
         .then((metadata) => {
           const max = metadata.height > metadata.width ? metadata.height : metadata.width;
-          const ratio = max / 64;
+          const ratioX = max / config.newsize[0];
+          const ratioY = max / config.newsize[1];
           image.resize({
-              width: metadata.width / ratio,
-              height: metadata.height / ratio,
+              width: metadata.width / ratioX,
+              height: metadata.height / ratioY,
               fit: 'contain',
           })
           .toFile('./' + outputFolderPath + '/' + img);
