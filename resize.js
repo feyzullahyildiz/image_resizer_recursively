@@ -22,12 +22,17 @@ folders.forEach(inputPath => {
           const max = metadata.height > metadata.width ? metadata.height : metadata.width;
           const ratioX = max / config.newsize[0];
           const ratioY = max / config.newsize[1];
-          image.resize({
-              width: metadata.width / ratioX,
-              height: metadata.height / ratioY,
-              fit: 'contain',
-          })
-          .toFile('./' + outputFolderPath + '/' + img);
+          if(ratioX < 1 || ratioY < 1) {
+            // console.log('__________________' + outputFolderPath + '/'+ img);
+            image.toFile('./' + outputFolderPath + '/' + img)
+          } else {
+            image.resize({
+                width: metadata.width / ratioX,
+                height: metadata.height / ratioY,
+                fit: 'contain',
+            })
+            .toFile('./' + outputFolderPath + '/' + img);
+          }
       }).catch((err) => {
         console.log('ERR', err);
       })
