@@ -4,13 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node resize",
-    "tinyfy": "node output_to_tiny"
-
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
+    "file-type": "^16.5.3",
     "fs-extra": "^7.0.1",
-    "sharp": "^0.22.1",
+    "imagemin": "7.0.1",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "sharp": "0.22.1",
     "tinify": "^1.6.0-beta.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
   }
 }
