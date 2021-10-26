@@ -86,13 +86,42 @@ async function getMetaDataWithoutCrash(filepath) {
 
 async function resizeImage(metadata, inputImagePath, outputImagePath) {
   const max = metadata.height > metadata.width ? metadata.height : metadata.width;
+  const min = metadata.height < metadata.width ? metadata.height : metadata.width;
   const ratioX = max / maxWidth;
   const ratioY = max / maxHeight;
   const compressionLevel = 9;
-  if (ratioX < 1 || ratioY < 1) {
-    // await sharp(inputImagePath).toFile(outputImagePath)
+  if (max <= maxWidth || max <= maxHeight) {
+    return;
+  }
+  /**Boyut oranları farklı olanlarda garip durumlar oluyor. Burada değişik birşey denedik. */
+
+
+  // if (min * 3.5 < max) {
+  //   const options = {
+  //     width: (metadata.width / ratioX) * 1.5,
+  //     height: (metadata.height / ratioY) * 1.5,
+  //     fit: 'contain',
+  //   }
+  //   console.log('3.5 kuralına giriyor', inputImagePath)
+  //   await sharp(inputImagePath)
+  //     .resize(options)
+  //     .toFile(outputImagePath);
+  //   return;
+  // }
+  if (metadata.height * 3 < metadata.width) {
+    const options = {
+      width: (metadata.width / ratioX) * 1.5,
+      height: (metadata.height / ratioY) * 1.5,
+      fit: 'contain',
+    }
+    console.log('Yatayda width 3.5 kuralına giriyor', inputImagePath)
     await sharp(inputImagePath)
-      // .png({ compressionLevel })
+      .resize(options)
+      .toFile(outputImagePath);
+    return;
+  }
+  if (ratioX < 1 || ratioY < 1) {
+    await sharp(inputImagePath)
       .toFile(outputImagePath)
   } else {
     const options = {
@@ -102,7 +131,6 @@ async function resizeImage(metadata, inputImagePath, outputImagePath) {
     }
     await sharp(inputImagePath)
       .resize(options)
-      // .png({ compressionLevel })
       .toFile(outputImagePath);
   }
 
